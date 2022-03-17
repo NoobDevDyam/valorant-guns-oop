@@ -114,8 +114,8 @@ class Bulldog extends Rifle {
     return 'Animation is loaded'
   }
 
-  info() {
-    
+  info(): string {
+    return ''
   }
 
 }

@@ -38,11 +38,11 @@ export default abstract class Rifle implements IGun {
   }
 
   shoot(): string {
-    return ''
+    return 'Shooting'
   }
 
   getBodyPart() {
-    return ''
+    return 'Head'
   }
 
   randomDamage(bodyPart: string, wallbang: boolean): number{
@@ -58,23 +58,23 @@ export default abstract class Rifle implements IGun {
   }
 
   checkHolder(): string {
-    return ''
+    return 'Agent'
   }
 
   drop(): string {
-    return ''
+    return 'Dropped Gun'
   }
 
   pickup(): string {
-    return ''
+    return 'Picked up Gun'
   }
 
   nearbyAgent(): string {
-    return ''
+    return 'Agent Name'
   }
 
   inspect(): string {
-    return ''
+    return 'show skin'
   }
 
   checkHandOrientation(): string {
