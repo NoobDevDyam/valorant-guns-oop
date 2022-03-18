@@ -13,7 +13,6 @@ export default class Vandal extends Rifle {
 	private shotSpread: number;
 	private reloadSpeed: number;
 	private zoom: number;
-	private burstFire: number;
 	private isADS: boolean;
 	private isEmpty: boolean;
 	private isLeft: boolean;
@@ -38,13 +37,14 @@ export default class Vandal extends Rifle {
 		this.isADS = false;
 		this.isEmpty = false;
 		this.isLeft = false;
+        this.bulletTracers= ''
 	}
 
 	scope() {
 		this.isADS = true;
 	}
 
-	shoot(): string {
+	override shoot(): string {
 		this.ammo -= this.fireRate;
 		if (!this.isADS) {
 			this.fireRate = 9.7;
@@ -64,12 +64,12 @@ export default class Vandal extends Rifle {
 		}
 	}
 
-	getBodyPart() {
+	override getBodyPart() {
 		const bodyParts: string[] = ['Head', 'Body', 'Legs'];
 		return bodyParts[Math.floor(Math.random() * bodyParts.length)];
 	}
 
-	randomDamage(bodyPart: string): number {
+	override randomDamage(bodyPart: string): number {
 		if (bodyPart === 'Head') {
 			return this.rangeDamage[0];
 		} else if (bodyPart === 'Body') {
@@ -83,36 +83,36 @@ export default class Vandal extends Rifle {
 		}
 	}
 
-	checkHolder(): string {
+	override checkHolder(): string {
 		return this.agents[Math.floor(Math.random() * this.agents.length)];
 	}
 
-	drop(): string {
+	override drop(): string {
 		return `dropped ${this.gunName}`;
 	}
 
-	pickup(): string {
+	override pickup(): string {
 		return `picked up ${this.gunName}`;
 	}
 
-	nearbyAgent(): string {
+	override nearbyAgent(): string {
 		return this.agents[Math.floor(Math.random() * this.agents.length)];
 	}
 
-	inspect(): string {
+	override inspect(): string {
 		return `skin is ${this.skin()}`;
 	}
 
-	checkHandOrientation(): string {
+	override checkHandOrientation(): string {
 		const orientations: string[] = ['left', 'right'];
 		return orientations[Math.floor(Math.random() * orientations.length)];
 	}
 
-	skin(): string {
+	override skin(): string {
 		return this.skins[Math.floor(Math.random() * this.skins.length)];
 	}
 
-	loadAnim(): string {
+	override loadAnim(): string {
 		return 'Animation is loaded';
 	}
 
