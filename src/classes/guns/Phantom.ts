@@ -8,6 +8,7 @@ import Rifle from '../Rifle';
 
 interface rangedDamage {
 	damage: number;
+	bodyPartHit: string;
 }
 export default class Phantom extends Rifle {
 	private fireRate: number;
@@ -22,6 +23,7 @@ export default class Phantom extends Rifle {
 	private bulletTracers: string;
 	private range: number[];
 	private hasRangeDamage: number[][];
+	private damagedBodyPart: string;
 
 	constructor(
 		agents: string[],
@@ -49,6 +51,7 @@ export default class Phantom extends Rifle {
 		this.isEmpty = false;
 		this.isLeft = false;
 		this.bulletTracers = '';
+		this.damagedBodyPart = '';
 	}
 
 	scope() {
@@ -67,10 +70,12 @@ export default class Phantom extends Rifle {
 		if (this.ammo > 0) {
 			if (!this.isWallbang) {
 				this.damage = this.dealDamage(this.getBodyPart(), this.getRange());
+				this.damagedBodyPart = this.damagedBodyPart;
 			} else {
 				this.damage = this.dealDamage(this.getBodyPart(), this.getRange()) - 10;
+				this.damagedBodyPart = this.damagedBodyPart;
 			}
-			return `Gun is Dealing ${this.damage}`;
+			return `Gun is Dealing ${this.damage} in the ${this.damagedBodyPart}`;
 		} else {
 			return 'no ammo';
 		}
@@ -84,19 +89,29 @@ export default class Phantom extends Rifle {
 	dealDamage(bodyPart: string, range: number): number {
 		let damagePts: rangedDamage = {
 			damage: 0,
+			bodyPartHit: '',
 		};
 
 		// multidimensional array finder
 		if (bodyPart === 'Head') {
 			switch (range) {
 				case 8:
-					damagePts = { damage: this.hasRangeDamage[0][0] };
+					damagePts = {
+						damage: this.hasRangeDamage[0][0],
+						bodyPartHit: bodyPart,
+					};
 					break;
 				case 15:
-					damagePts = { damage: this.hasRangeDamage[0][1] };
+					damagePts = {
+						damage: this.hasRangeDamage[0][1],
+						bodyPartHit: bodyPart,
+					};
 					break;
 				case 30:
-					damagePts = { damage: this.hasRangeDamage[0][2] };
+					damagePts = {
+						damage: this.hasRangeDamage[0][2],
+						bodyPartHit: bodyPart,
+					};
 					break;
 
 				default:
@@ -105,13 +120,22 @@ export default class Phantom extends Rifle {
 		} else if (bodyPart === 'Body') {
 			switch (range) {
 				case 8:
-					damagePts = { damage: this.hasRangeDamage[1][0] };
+					damagePts = {
+						damage: this.hasRangeDamage[1][0],
+						bodyPartHit: bodyPart,
+					};
 					break;
 				case 15:
-					damagePts = { damage: this.hasRangeDamage[1][1] };
+					damagePts = {
+						damage: this.hasRangeDamage[1][1],
+						bodyPartHit: bodyPart,
+					};
 					break;
 				case 30:
-					damagePts = { damage: this.hasRangeDamage[1][2] };
+					damagePts = {
+						damage: this.hasRangeDamage[1][2],
+						bodyPartHit: bodyPart,
+					};
 					break;
 
 				default:
@@ -120,13 +144,22 @@ export default class Phantom extends Rifle {
 		} else if (bodyPart === 'Legs') {
 			switch (range) {
 				case 8:
-					damagePts = { damage: this.hasRangeDamage[2][0] };
+					damagePts = {
+						damage: this.hasRangeDamage[2][0],
+						bodyPartHit: bodyPart,
+					};
 					break;
 				case 15:
-					damagePts = { damage: this.hasRangeDamage[2][1] };
+					damagePts = {
+						damage: this.hasRangeDamage[2][1],
+						bodyPartHit: bodyPart,
+					};
 					break;
 				case 30:
-					damagePts = { damage: this.hasRangeDamage[2][2] };
+					damagePts = {
+						damage: this.hasRangeDamage[2][2],
+						bodyPartHit: bodyPart,
+					};
 					break;
 
 				default:
@@ -134,6 +167,7 @@ export default class Phantom extends Rifle {
 			}
 		}
 
+		this.damagedBodyPart = damagePts.bodyPartHit;
 		return damagePts.damage;
 	}
 

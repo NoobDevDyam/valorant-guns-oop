@@ -8,3 +8,4 @@ const player1 = new Phantom(agents, skins, anim, 'lmb');
 
 console.log(player1.bulletCount());
 console.log(player1.shoot());
+console.log(player1.skin());
