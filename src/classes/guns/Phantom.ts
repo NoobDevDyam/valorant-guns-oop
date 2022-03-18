@@ -84,7 +84,9 @@ export default class Phantom extends Rifle {
 			}
 			return `${this.gunName} is Dealing ${this.damage} in the ${this.damagedBodyPart}`;
 		} else {
-			return 'no ammo';
+			this.isEmpty = true;
+			this.reload();
+			return 'no ammo, reloaded';
 		}
 	}
 
@@ -249,5 +251,20 @@ export default class Phantom extends Rifle {
 		}
 
 		return points;
+	}
+
+	// reload gun
+	override reload(): string {
+		if (this.magazine === 0) {
+			this.magazine = 30;
+			this.isEmpty = false;
+			return 'Reloading mags';
+		}
+		return 'Still got bullets';
+	}
+
+	meleeAttack(): string {
+		let agent = this.agents[Math.floor(Math.random() * this.agents.length)];
+		return `${agent} used melee attack on ${this.nearbyAgent()}`;
 	}
 }

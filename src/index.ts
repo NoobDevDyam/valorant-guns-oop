@@ -16,3 +16,5 @@ console.log(player1.skin());
 console.log(player1.loadAnim());
 console.log(player1.parsePointCoordinate(23, 43, 13, 34));
 console.log(player1.parsePointCoordinate(points));
+console.log(player1.reload());
+console.log(player1.meleeAttack());
