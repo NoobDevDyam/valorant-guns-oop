@@ -8,9 +8,15 @@ import Rifle from '../Rifle';
 
 interface rangedDamage {
 	damage: number;
-	bodyPartHit: string;
+}
+
+interface PointCoordinates {
+	p1: { x: number; y: number };
+	p2: { x: number; y: number };
 }
 export default class Phantom extends Rifle {
+	override gunName: string;
+	override animations: string[];
 	private fireRate: number;
 	private runSpeed: number;
 	private equipSpeed: number;
@@ -52,6 +58,7 @@ export default class Phantom extends Rifle {
 		this.isLeft = false;
 		this.bulletTracers = '';
 		this.damagedBodyPart = '';
+		this.animations = animations;
 	}
 
 	scope() {
@@ -75,7 +82,7 @@ export default class Phantom extends Rifle {
 				this.damage = this.dealDamage(this.getBodyPart(), this.getRange()) - 10;
 				this.damagedBodyPart = this.damagedBodyPart;
 			}
-			return `Gun is Dealing ${this.damage} in the ${this.damagedBodyPart}`;
+			return `${this.gunName} is Dealing ${this.damage} in the ${this.damagedBodyPart}`;
 		} else {
 			return 'no ammo';
 		}
@@ -89,7 +96,6 @@ export default class Phantom extends Rifle {
 	dealDamage(bodyPart: string, range: number): number {
 		let damagePts: rangedDamage = {
 			damage: 0,
-			bodyPartHit: '',
 		};
 
 		// multidimensional array finder
@@ -98,19 +104,16 @@ export default class Phantom extends Rifle {
 				case 8:
 					damagePts = {
 						damage: this.hasRangeDamage[0][0],
-						bodyPartHit: bodyPart,
 					};
 					break;
 				case 15:
 					damagePts = {
 						damage: this.hasRangeDamage[0][1],
-						bodyPartHit: bodyPart,
 					};
 					break;
 				case 30:
 					damagePts = {
 						damage: this.hasRangeDamage[0][2],
-						bodyPartHit: bodyPart,
 					};
 					break;
 
@@ -122,19 +125,16 @@ export default class Phantom extends Rifle {
 				case 8:
 					damagePts = {
 						damage: this.hasRangeDamage[1][0],
-						bodyPartHit: bodyPart,
 					};
 					break;
 				case 15:
 					damagePts = {
 						damage: this.hasRangeDamage[1][1],
-						bodyPartHit: bodyPart,
 					};
 					break;
 				case 30:
 					damagePts = {
 						damage: this.hasRangeDamage[1][2],
-						bodyPartHit: bodyPart,
 					};
 					break;
 
@@ -146,19 +146,16 @@ export default class Phantom extends Rifle {
 				case 8:
 					damagePts = {
 						damage: this.hasRangeDamage[2][0],
-						bodyPartHit: bodyPart,
 					};
 					break;
 				case 15:
 					damagePts = {
 						damage: this.hasRangeDamage[2][1],
-						bodyPartHit: bodyPart,
 					};
 					break;
 				case 30:
 					damagePts = {
 						damage: this.hasRangeDamage[2][2],
-						bodyPartHit: bodyPart,
 					};
 					break;
 
@@ -167,7 +164,7 @@ export default class Phantom extends Rifle {
 			}
 		}
 
-		this.damagedBodyPart = damagePts.bodyPartHit;
+		this.damagedBodyPart = bodyPart;
 		return damagePts.damage;
 	}
 
@@ -201,7 +198,7 @@ export default class Phantom extends Rifle {
 	}
 
 	override loadAnim(): string {
-		return 'Animation is loaded';
+		return this.animations[Math.floor(Math.random() * this.animations.length)];
 	}
 
 	info(): string {
@@ -211,5 +208,46 @@ export default class Phantom extends Rifle {
 	// random range finder
 	getRange(): number {
 		return this.range[Math.floor(Math.random() * this.range.length)];
+	}
+
+	// parses coordinates between 2 points
+	parsePointCoordinate(obj: PointCoordinates): PointCoordinates;
+	parsePointCoordinate(
+		x1: number,
+		y1: number,
+		x2: number,
+		y2: number
+	): PointCoordinates;
+
+	parsePointCoordinate(
+		arg1: unknown,
+		arg2?: unknown,
+		arg3?: unknown,
+		arg4?: unknown
+	): PointCoordinates {
+		let points: PointCoordinates = {
+			p1: { x: 0, y: 0 },
+			p2: { x: 0, y: 0 },
+		};
+
+		if (typeof arg1 === 'object') {
+			points = {
+				...(arg1 as PointCoordinates),
+			};
+		} else {
+			points = {
+				p1: {
+					x: arg1 as number,
+					y: arg2 as number,
+				},
+
+				p2: {
+					x: arg3 as number,
+					y: arg4 as number,
+				},
+			};
+		}
+
+		return points;
 	}
 }
