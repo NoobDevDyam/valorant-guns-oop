@@ -4,5 +4,7 @@
 
 ## notes
 
-- Override keywords are forced
+### Note001 - Force Override keyword
+
+- Override keywords are forced in child classes
   - tsconfig.json option `"noImplicitOverride": true`
