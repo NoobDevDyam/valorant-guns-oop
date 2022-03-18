@@ -1,6 +1,6 @@
 /* 
 ---BURGERSHOT CREW @ 2022---
-Bulldog by Jam Bonifacio
+Phantom by Jerome Cabugwason
 ----------------------------
 */
 
@@ -39,6 +39,7 @@ export default class Phantom extends Rifle {
 		this.isADS = false;
 		this.isEmpty = false;
 		this.isLeft = false;
+		this.bulletTracers = ''
 	}
 
 	scope() {

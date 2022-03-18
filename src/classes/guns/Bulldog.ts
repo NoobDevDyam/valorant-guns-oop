@@ -39,6 +39,7 @@ export default class Bulldog extends Rifle {
 		this.isADS = false;
 		this.isEmpty = false;
 		this.isLeft = false;
+    this.bulletTracers = ''
 	}
 
 	scope() {
