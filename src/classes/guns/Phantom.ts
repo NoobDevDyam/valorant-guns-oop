@@ -6,6 +6,9 @@ Phantom by Jerome Cabugwason
 
 import Rifle from '../Rifle';
 
+interface rangedDamage {
+	damage: number;
+}
 export default class Phantom extends Rifle {
 	private fireRate: number;
 	private runSpeed: number;
@@ -18,6 +21,7 @@ export default class Phantom extends Rifle {
 	private isLeft: boolean;
 	private bulletTracers: string;
 	private range: number[];
+	private hasRangeDamage: number[][];
 
 	constructor(
 		agents: string[],
@@ -28,7 +32,12 @@ export default class Phantom extends Rifle {
 		super(agents, skins, animations, primaryFire);
 		this.gunName = 'Phantom';
 		this.magazine = 30;
-		this.rangeDamage = [156, 39, 33, 140, 35, 29, 124, 31, 26];
+		this.ammo = 3 * this.magazine;
+		this.hasRangeDamage = [
+			[156, 140, 124],
+			[39, 35, 31],
+			[33, 29, 26],
+		];
 		this.range = [8, 15, 30];
 		this.fireRate = 11;
 		this.runSpeed = 5.4;
@@ -47,18 +56,19 @@ export default class Phantom extends Rifle {
 	}
 
 	override shoot(): string {
-		this.ammo -= this.fireRate;
 		if (!this.isADS) {
 			this.fireRate = 10;
 		} else {
 			this.fireRate = 6.316;
 		}
 
+		this.ammo -= this.fireRate;
+
 		if (this.ammo > 0) {
 			if (!this.isWallbang) {
-				this.damage = this.randomDamage(this.getBodyPart());
+				this.damage = this.dealDamage(this.getBodyPart(), this.getRange());
 			} else {
-				this.damage = this.randomDamage(this.getBodyPart()) - 10;
+				this.damage = this.dealDamage(this.getBodyPart(), this.getRange()) - 10;
 			}
 			return `Gun is Dealing ${this.damage}`;
 		} else {
@@ -71,19 +81,60 @@ export default class Phantom extends Rifle {
 		return bodyParts[Math.floor(Math.random() * bodyParts.length)];
 	}
 
-	override randomDamage(bodyPart: string): number {
-		// add random range later
+	dealDamage(bodyPart: string, range: number): number {
+		let damagePts: rangedDamage = {
+			damage: 0,
+		};
+
+		// multidimensional array finder
 		if (bodyPart === 'Head') {
-			return this.rangeDamage[0];
+			switch (range) {
+				case 8:
+					damagePts = { damage: this.hasRangeDamage[0][0] };
+					break;
+				case 15:
+					damagePts = { damage: this.hasRangeDamage[0][1] };
+					break;
+				case 30:
+					damagePts = { damage: this.hasRangeDamage[0][2] };
+					break;
+
+				default:
+					break;
+			}
 		} else if (bodyPart === 'Body') {
-			return this.rangeDamage[1];
+			switch (range) {
+				case 8:
+					damagePts = { damage: this.hasRangeDamage[1][0] };
+					break;
+				case 15:
+					damagePts = { damage: this.hasRangeDamage[1][1] };
+					break;
+				case 30:
+					damagePts = { damage: this.hasRangeDamage[1][2] };
+					break;
+
+				default:
+					break;
+			}
 		} else if (bodyPart === 'Legs') {
-			return this.rangeDamage[2];
-		} else {
-			return this.rangeDamage[
-				Math.floor(Math.random() * this.rangeDamage.length)
-			];
+			switch (range) {
+				case 8:
+					damagePts = { damage: this.hasRangeDamage[2][0] };
+					break;
+				case 15:
+					damagePts = { damage: this.hasRangeDamage[2][1] };
+					break;
+				case 30:
+					damagePts = { damage: this.hasRangeDamage[2][2] };
+					break;
+
+				default:
+					break;
+			}
 		}
+
+		return damagePts.damage;
 	}
 
 	override checkHolder(): string {
@@ -120,6 +171,11 @@ export default class Phantom extends Rifle {
 	}
 
 	info(): string {
-		return '';
+		return 'Info is displayed here';
+	}
+
+	// random range finder
+	getRange(): number {
+		return this.range[Math.floor(Math.random() * this.range.length)];
 	}
 }
