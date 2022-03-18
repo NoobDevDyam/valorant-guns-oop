@@ -22,7 +22,7 @@ export default abstract class Rifle implements IGun {
 	) {
 		this.rangeDamage = [10, 10, 10];
 		this.gunName = 'Rifle';
-    this.magazine = 0;
+		this.magazine = 0;
 		this.ammo = 3 * this.magazine;
 		this.isWallbang = false;
 		this.damage = 0;
