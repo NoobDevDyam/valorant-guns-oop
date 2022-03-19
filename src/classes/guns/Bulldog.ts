@@ -46,7 +46,7 @@ export default class Bulldog extends Rifle {
 		this.isADS = true;
 	}
 
-	shoot(): string {
+	override shoot(): string {
 		this.ammo -= this.fireRate;
 		if (!this.isADS) {
 			this.fireRate = 10;
@@ -66,12 +66,12 @@ export default class Bulldog extends Rifle {
 		}
 	}
 
-	getBodyPart() {
+	override getBodyPart() {
 		const bodyParts: string[] = ['Head', 'Body', 'Legs'];
 		return bodyParts[Math.floor(Math.random() * bodyParts.length)];
 	}
 
-	randomDamage(bodyPart: string): number {
+	override randomDamage(bodyPart: string): number {
 		if (bodyPart === 'Head') {
 			return this.rangeDamage[0];
 		} else if (bodyPart === 'Body') {
@@ -85,40 +85,72 @@ export default class Bulldog extends Rifle {
 		}
 	}
 
-	checkHolder(): string {
+	override checkHolder(): string {
 		return this.agents[Math.floor(Math.random() * this.agents.length)];
 	}
 
-	drop(): string {
+	override drop(): string {
 		return `dropped ${this.gunName}`;
 	}
 
-	pickup(): string {
+	override pickup(): string {
 		return `picked up ${this.gunName}`;
 	}
 
-	nearbyAgent(): string {
+	override nearbyAgent(): string {
 		return this.agents[Math.floor(Math.random() * this.agents.length)];
 	}
 
-	inspect(): string {
+	override inspect(): string {
 		return `skin is ${this.skin()}`;
 	}
 
-	checkHandOrientation(): string {
+	override checkHandOrientation(): string {
 		const orientations: string[] = ['left', 'right'];
 		return orientations[Math.floor(Math.random() * orientations.length)];
 	}
 
-	skin(): string {
+	override skin(): string {
 		return this.skins[Math.floor(Math.random() * this.skins.length)];
 	}
 
-	loadAnim(): string {
+	override loadAnim(): string {
 		return 'Animation is loaded';
 	}
 
 	info(): string {
-		return '';
+		return `
+    LOAD GUN INFORMATION
+		--------------------
+		Fire Rate: ${this.fireRate}
+		Run Speed: ${this.runSpeed}
+		Equip Speed: ${this.equipSpeed}
+		1st Shot Spread: ${this.shotSpread}
+		Reload Speed: ${this.reloadSpeed}
+		Magazine: ${this.magazine}
+		--------------------------
+		Damage: ${this.rangeDamage}
+		--------------------------
+		Zoom: ${this.zoom}
+		Burst Fire: ${this.burstFire}
+		Crosshair follows recoil
+    `;
 	}
+
+	getCrosshairPosX(): number {
+		return this.recoilPosX()
+	}
+
+	getCrosshairPosY(): number {
+		return this.recoilPosY()
+	}
+
+	recoilPosX(): number {
+		return Math.floor(Math.random() * 800)
+	}
+
+	recoilPosY(): number {
+		return Math.floor(Math.random() * 400)
+	}
+
 }
