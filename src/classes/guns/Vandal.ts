@@ -109,18 +109,14 @@ export default class Vandal extends Rifle {
 		return this.agents[Math.floor(Math.random() * this.agents.length)];
 	}
 
-	coordinate(obj: Coordinate): Coordinate;
 	coordinate(x: number, y: number): Coordinate;
-
 	coordinate(param1: unknown, param2?: unknown): Coordinate {
 		let coord: Coordinate = {
 			x: 0,
-			y: 0
+			y: 0,
 		};
 
-		if (typeof param1 === 'object') {
-			coord = param1 as Coordinate
-		} else {
+		if (typeof param1 === 'number') {
 			coord = {
 				x: Number(param1),
 				y: Number(param2),
