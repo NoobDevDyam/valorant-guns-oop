@@ -150,10 +150,6 @@ export default class Vandal extends Rifle {
 		return 'DISPLAY INFORMATION';
 	}
 
-	pace(): string {
-		return `${this.gunName}'s run speed is ${this.runSpeed}`
-	}
-
 	dropOff(): string {
 		return 'No bullet drop off ranges'
 	}
