@@ -1,12 +1,18 @@
 /* 
 ---BURGERSHOT CREW @ 2022---
-Vandal
+Vandal by Diadem Grace Arroz
 ----------------------------
 */
 
 import Rifle from '../Rifle';
 
+interface Coordinate {
+	x: number;
+	y: number;
+}
+
 export default class Vandal extends Rifle {
+	override gunName: string;
 	private fireRate: number;
 	private runSpeed: number;
 	private equipSpeed: number;
@@ -17,6 +23,7 @@ export default class Vandal extends Rifle {
 	private isEmpty: boolean;
 	private isLeft: boolean;
 	private bulletTracers: string;
+	private gunRecovery: number;
 
 	constructor(
 		agents: string[],
@@ -37,7 +44,10 @@ export default class Vandal extends Rifle {
 		this.isADS = false;
 		this.isEmpty = false;
 		this.isLeft = false;
-        this.bulletTracers= ''
+        this.bulletTracers= '';
+		this.gunRecovery = 0.375;
+		this.magazine = 8;
+		this.ammo = 3 * this.magazine;
 	}
 
 	scope() {
@@ -99,6 +109,26 @@ export default class Vandal extends Rifle {
 		return this.agents[Math.floor(Math.random() * this.agents.length)];
 	}
 
+	coordinate(obj: Coordinate): Coordinate;
+	coordinate(x: number, y: number): Coordinate;
+
+	coordinate(param1: unknown, param2?: unknown): Coordinate {
+		let coord: Coordinate = {
+			x: 0,
+			y: 0
+		};
+
+		if (typeof param1 === 'object') {
+			coord = param1 as Coordinate
+		} else {
+			coord = {
+				x: Number(param1),
+				y: Number(param2),
+			};
+		}
+		return coord
+	}
+
 	override inspect(): string {
 		return `skin is ${this.skin()}`;
 	}
@@ -117,6 +147,25 @@ export default class Vandal extends Rifle {
 	}
 
 	info(): string {
-		return '';
+		return 'DISPLAY INFORMATION';
+	}
+
+	pace(): string {
+		return `${this.gunName}'s run speed is ${this.runSpeed}`
+	}
+
+	dropOff(): string {
+		return 'No bullet drop off ranges'
+	}
+
+	accuracyReset(): number {
+		return this.gunRecovery
+	}
+
+	override bulletCount(): number {
+		if (this.magazine === 8) {
+			this.ammo = 3 * this.magazine
+		}
+		return this.ammo
 	}
 }
