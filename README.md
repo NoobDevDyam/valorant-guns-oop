@@ -19,3 +19,7 @@
 1. Overloading a method in typescript is possible with same number of parameters but not possible with different number of parameters.
 
 2. An interface cannot be used in a parent class without the implements keyword.
+
+### Link
+
+[https://github.com/NoobDevDyam/valorant-guns-oop]
