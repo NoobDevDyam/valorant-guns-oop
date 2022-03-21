@@ -8,3 +8,7 @@
 
 - Override keywords are forced in child classes
   - tsconfig.json option `"noImplicitOverride": true`
+
+### Ratings
+
+- Jerome: 4/4 this activity boosted my knowledge
